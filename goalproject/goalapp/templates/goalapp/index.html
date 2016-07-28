@@ -1,0 +1,9 @@
+{% if goals %}
+    <ul>
+    {% for goal in goals %}
+        <li>{{ goal.title }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No goals are available.</p>
+{% endif %}
