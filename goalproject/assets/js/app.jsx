@@ -1,20 +1,23 @@
-import React from 'react'
-import request from 'superagent'
-import {GOALS_LIST_URL} from './urls'
+import React from 'react';
+import request from 'superagent';
 
-var Goal = React.createClass({
-    render: function() {
-        return <li> {this.props.title} </li>;
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import List from 'material-ui/List';
+import Paper from 'material-ui/Paper';
+
+import Goal from './Goal';
+import {GOALS_LIST_URL} from './urls';
+
+
+class GoalList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {goals: []};
     }
-});
 
-
-var GoalList = React.createClass({
-    getInitialState: function() {
-        return {goals: []};
-    },
-
-    loadGoals: function() {
+    loadGoals() {
         request
         .get(GOALS_LIST_URL)
         .end(function(err, res){
@@ -23,23 +26,33 @@ var GoalList = React.createClass({
             else
                 this.setState({ goals: JSON.parse(res.text).goals });
         }.bind(this));
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         this.loadGoals();
-    },
+    }
 
-    render: function() {
+    render() {
         return (
-            <ul>
-                {
-                    this.state.goals.map(
-                        goal => (<Goal title={goal.title} key={goal.id}></Goal>)
-                    )
-                }
-            </ul>
+            <MuiThemeProvider>
+                <div>
+                    <AppBar
+                        title="GoalApp"
+                        iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    />
+                    <Paper zDepth={3}>
+                        <List>
+                        {
+                            this.state.goals.map(
+                                goal => (<Goal title={goal.title} key={goal.id}></Goal>)
+                            )
+                        }
+                        </List>
+                    </Paper>
+                </div>
+            </MuiThemeProvider>
         );
     }
-});
+}
 
 module.exports = GoalList;
