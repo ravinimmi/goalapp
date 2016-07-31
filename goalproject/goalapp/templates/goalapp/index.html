@@ -1,9 +1,14 @@
-{% if goals %}
-    <ul>
-    {% for goal in goals %}
-        <li>{{ goal.title }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No goals are available.</p>
-{% endif %}
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+  </head>
+
+  <body>
+    <div id="react-app"></div>
+    {% render_bundle 'main' %}
+  </body>
+</html>
