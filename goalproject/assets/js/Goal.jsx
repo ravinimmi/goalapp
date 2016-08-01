@@ -2,18 +2,30 @@ import React from 'react';
 import {ListItem} from 'material-ui/List';
 import {Card, CardHeader} from 'material-ui/Card';
 
+
+
 class Goal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {shadow: 1};
+    }
+
+    onMouseOver = () => { this.setState({shadow: 2}); }
+    
+    onMouseOut = () => { this.setState({shadow: 1}); }
+
     render() {
         return (
-            <ListItem>
-                <Card>
+                <Card
+                  className="card"
+                  onMouseOver={this.onMouseOver}
+                  onMouseOut={this.onMouseOut}
+                  zDepth={this.state.shadow}
+                >
                     <CardHeader
                       title={this.props.title}
-                      actAsExpander={true}
-                      showExpandableButton={true}
                     />
                 </Card>
-            </ListItem>
         );
     }
 }

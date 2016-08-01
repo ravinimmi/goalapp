@@ -9,6 +9,7 @@ import Paper from 'material-ui/Paper';
 
 import Goal from './Goal';
 import {GOALS_LIST_URL} from './urls';
+import './../css/app.css';
 
 
 class GoalList extends React.Component {
@@ -37,17 +38,17 @@ class GoalList extends React.Component {
             <MuiThemeProvider>
                 <div>
                     <AppBar
-                        title="GoalApp"
+                        style={{position: 'fixed'}}
+                        className="app-bar"
+                        title="Goal App"
                         iconClassNameRight="muidocs-icon-navigation-expand-more"
                     />
-                    <Paper zDepth={3}>
-                        <List>
+                    <Paper zDepth={0} className="paper">
                         {
                             this.state.goals.map(
                                 goal => (<Goal title={goal.title} key={goal.id}></Goal>)
                             )
                         }
-                        </List>
                     </Paper>
                 </div>
             </MuiThemeProvider>

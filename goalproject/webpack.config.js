@@ -25,14 +25,19 @@ module.exports = {
         loader: 'babel',
         query:
         {
-          presets:['react', 'es2015']
-        }
+          presets:['react', 'es2015', 'stage-0']
+        },
       }, // to transform JSX into JS
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
     ],
   },
 
+
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components'],
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.css']
   },
 }
