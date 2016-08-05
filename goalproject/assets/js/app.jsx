@@ -25,7 +25,7 @@ class GoalList extends React.Component {
             if (err)
                 console.log("Could not retrieve goals_list" + err);
             else
-                this.setState({ goals: JSON.parse(res.text).goals });
+                this.setState({ goals: JSON.parse(res.text) });
         }.bind(this));
     }
 

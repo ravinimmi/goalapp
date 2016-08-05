@@ -1,22 +1,51 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 from .models import Goal
+from goalapp.serializers import GoalSerializer
+from django.http import Http404
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
 
 
 def index(request):
     return render(request, 'goalapp/index.html', {})
 
 
-def goals_list(request):
-    goals = Goal.objects.all().values()
-    response = JsonResponse({'goals': list(goals)})
-    return response
+class GoalList(APIView):
+    def get(self, request, format=None):
+        goals = Goal.objects.all().values('id', 'title')
+        serializer = GoalSerializer(goals, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = GoalSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def goal_details(request, id):
-    try:
-        goal = Goal.objects.values().get(id=id)
-        response = JsonResponse({'success': True, 'goal': goal})
-    except Goal.DoesNotExist:
-        response = JsonResponse({'success': False}, status=404)
-    return response
+class GoalDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Goal.objects.get(pk=pk)
+        except Goal.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        goal = self.get_object(pk)
+        serializer = GoalSerializer(goal)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        goal = self.get_object(pk)
+        serializer = GoalSerializer(goal, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        goal = self.get_object(pk)
+        goal.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
