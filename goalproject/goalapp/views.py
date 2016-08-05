@@ -9,5 +9,14 @@ def index(request):
 
 def goals_list(request):
     goals = Goal.objects.all().values()
-    context = {'goals': list(goals)}
-    return JsonResponse(context)
+    response = JsonResponse({'goals': list(goals)})
+    return response
+
+
+def goal_details(request, id):
+    try:
+        goal = Goal.objects.values().get(id=id)
+        response = JsonResponse({'success': True, 'goal': goal})
+    except Goal.DoesNotExist:
+        response = JsonResponse({'success': False}, status=404)
+    return response
