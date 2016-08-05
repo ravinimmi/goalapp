@@ -1,7 +1,5 @@
 import React from 'react';
-import {ListItem} from 'material-ui/List';
 import {Card, CardHeader} from 'material-ui/Card';
-
 
 
 class Goal extends React.Component {
