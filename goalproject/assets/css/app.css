@@ -1,6 +1,7 @@
 .paper {
     width: 50%;
-    margin-left: 25%;
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 5%;
     padding-bottom: 5%;
 }
@@ -8,4 +9,10 @@
 .card {
     margin-top: 20px;
     height: 100px;
+}
+
+.create-goal {
+    position: fixed;
+    bottom: 40px;
+    right: 60px;
 }
