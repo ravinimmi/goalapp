@@ -1,13 +1,10 @@
 import React from 'react';
-import request from 'superagent';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
-
-import {GOALS_URL} from './urls';
 
 
 class CreateGoal extends React.Component {
@@ -21,23 +18,16 @@ class CreateGoal extends React.Component {
   };
   
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({open: false, title: ''});
   };
 
   handleTextFieldChange = (e) => {
     this.setState({title: e.target.value});
   };
 
-  handleSubmit = () => {
-    request
-    .post(GOALS_URL)
-    .send({title: this.state.title})
-    .end(function(err, res){
-      if(err)
-        console.log("Could not create goal " + err);
-      else
-        this.handleClose();
-    }.bind(this));
+  handleSubmit() {
+    this.props.submitGoal(this.state.title);
+    this.handleClose();
   }
 
   render() {
@@ -50,7 +40,7 @@ class CreateGoal extends React.Component {
       <FlatButton
         label="Submit"
         primary={true}
-        onTouchTap={this.handleSubmit}
+        onTouchTap={this.handleSubmit.bind(this)}
       />,
     ];
 
