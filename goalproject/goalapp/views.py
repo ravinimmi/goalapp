@@ -13,7 +13,7 @@ def index(request):
 
 class GoalList(APIView):
     def get(self, request, format=None):
-        goals = Goal.objects.all().values('id', 'title')
+        goals = Goal.objects.all().values()
         serializer = GoalSerializer(goals, many=True)
         return Response(serializer.data)
 

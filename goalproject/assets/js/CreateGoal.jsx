@@ -5,28 +5,42 @@ import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import DatePicker from 'material-ui/DatePicker';
 
 
 class CreateGoal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {open: false, title: ''};
+    this.state = {open: false, title: '', startDate: new Date(), finishDate: ''};
   }
 
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({open: true, title: '', startDate: new Date(), finishDate: ''});
   };
   
   handleClose = () => {
-    this.setState({open: false, title: ''});
+    this.setState({open: false});
   };
 
   handleTextFieldChange = (e) => {
     this.setState({title: e.target.value});
   };
 
+  handleStartDateChange = (n, date) => {
+    this.setState({startDate: date});
+  };
+
+  handleFinishDateChange = (n, date) => {
+    this.setState({finishDate: date});
+  };
+
   handleSubmit() {
-    this.props.submitGoal(this.state.title);
+    var data = {
+      title: this.state.title,
+      start_date: this.state.startDate,
+      end_date: this.state.finishDate
+    };
+    this.props.submitGoal(data);
     this.handleClose();
   }
 
@@ -59,6 +73,16 @@ class CreateGoal extends React.Component {
             hintText="Goal Title"
             value={this.state.title}
             onChange={this.handleTextFieldChange}
+          />
+          <DatePicker
+            hintText="Start Date"
+            value={this.state.startDate}
+            onChange={this.handleStartDateChange}
+          />
+          <DatePicker
+            hintText="Finish Date"
+            value={this.state.finishDate}
+            onChange={this.handleFinishDateChange}
           />
         </Dialog>
       </div>

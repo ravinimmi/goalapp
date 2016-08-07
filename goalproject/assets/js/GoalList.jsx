@@ -10,8 +10,17 @@ class GoalList extends React.Component {
             <Paper zDepth={0} className="paper">
               {
                 this.props.goals.map(
-                  goal => (<Goal title={goal.title} key={goal.id}></Goal>)
-                )
+                  goal => (
+                           <Goal 
+                             title={goal.title}
+                             startDate={goal.start_date}
+                             finishDate={goal.end_date}
+                             key={goal.id}
+                             id={goal.id}
+                             deleteGoal={this.props.deleteGoal}
+                             >
+                           </Goal>)
+                  )
               }
             </Paper>
     );

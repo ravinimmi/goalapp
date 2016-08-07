@@ -19,7 +19,7 @@ class HomePage extends React.Component {
   loadGoals() {
     request
     .get(GOALS_URL)
-    .end(function(err, res){
+    .end(function(err, res) {
       if(err)
         console.log("Could not retrieve goals from server. " + err);
       else
@@ -27,13 +27,24 @@ class HomePage extends React.Component {
     }.bind(this));
   }
 
-  submitGoal(title) {
+  submitGoal(data) {
     request
     .post(GOALS_URL)
-    .send({title: title})
-    .end(function(err, res){
+    .send(data)
+    .end(function(err, res) {
       if(err)
         console.log("Could not create goal. " + err);
+      else
+        this.loadGoals();
+    }.bind(this));
+  }
+
+  deleteGoal(goalId) {
+    request
+    .del(GOALS_URL + goalId)
+    .end(function(err, res) {
+      if(err)
+        console.log("Could not delete goal. " + err);
       else
         this.loadGoals();
     }.bind(this));
@@ -52,7 +63,7 @@ class HomePage extends React.Component {
             title="Goal App"
             iconClassNameRight="muidocs-icon-navigation-expand-more"
           />
-          <GoalList goals={this.state.goals} />
+          <GoalList goals={this.state.goals} deleteGoal={this.deleteGoal.bind(this)}/>
           <CreateGoal submitGoal={this.submitGoal.bind(this)} />
         </div>
       </MuiThemeProvider>

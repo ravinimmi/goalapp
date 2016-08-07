@@ -8,11 +8,15 @@
 
 .card {
     margin-top: 20px;
-    height: 100px;
 }
 
 .create-goal {
     position: fixed;
     bottom: 40px;
     right: 60px;
+}
+
+.delete-goal-btn {
+    margin-left: 82%;
+    margin-bottom: 2%;
 }

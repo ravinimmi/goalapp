@@ -1,5 +1,6 @@
 import React from 'react';
-import {Card, CardHeader} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 class Goal extends React.Component {
@@ -12,6 +13,8 @@ class Goal extends React.Component {
   
   onMouseOut = () => { this.setState({shadow: 1}); };
 
+  onDelete = () => { this.props.deleteGoal(this.props.id); }
+
   render() {
     return (
             <Card
@@ -22,7 +25,25 @@ class Goal extends React.Component {
             >
               <CardHeader
                 title={this.props.title}
+                actAsExpander={true}
+                showExpandableButton={true}
               />
+              <CardText actAsExpander={true}>
+                <div>
+                  Start date: {new Date(this.props.startDate).toLocaleDateString()}
+                </div>
+                <div>
+                  Finish date: {new Date(this.props.finishDate).toLocaleDateString()}
+                </div>
+              </CardText>
+              <CardActions expandable={true}>
+                <RaisedButton
+                  label="Delete"
+                  primary={true}
+                  className="delete-goal-btn"
+                  onTouchTap={this.onDelete}
+                />
+              </CardActions>
             </Card>
     );
   }
